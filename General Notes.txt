@@ -1,0 +1,95 @@
+﻿API Design:
+
+* University Mobile App
+	1. Query Tuition
+		1.1. Parameters: Student No
+		1.2. API Response: Tuition Total, Balance
+		1.3. Description: Returns tuition amount and current balance
+		1.4. Auth: -
+		1.5. Paging: -
+* Banking App
+	1. Query Tuition
+		1.1. Parameters: Student No
+		1.2. API Response: Tuition Total, Balance
+		1.3. Description: Returns tuition amount and current balance
+		1.4. Auth: Yes
+		1.5. Paging: -
+	2. Pay Tuition
+		2.1. Parameters: Student No, Term
+		2.2. API Response: Payment Status (Successful, Error)
+		2.3. Description: Records payment for given term. If amount is not complete, 
+		will make sure remaining amount is saved. No real credit card payment work 
+		is needed.
+		2.4. Auth: -
+		2.5. Paging: -
+* University Web Site
+	1. Add Tuition
+		1.1. Parameters: Student No, Term
+		1.2. API Response: Transaction status
+		1.3. Description: Adds a tuition amount for given student term
+		1.4. Auth: Yes
+		1.5. Paging: -
+	2. Unpaid Tuition Status
+		2.1. Parameters: Term
+		2.2. API Response: List of students with unpaid tuition amounts
+		2.3. Auth: Yes
+		2.4. Paging: Yes
+
+
+Common Requirements
+
+* You are only asked to develop APIs that will be test in their swaggers. 
+NO FRONT END necessary
+* Every student will do their own midterm, no groups
+* All REST services must be versionable
+* Services must support paging, authentication as described.
+* For authentication, JWT or Oauth can be implemented. 
+Please check the examples from class
+* All APIs must have Swagger UI or document
+* You can choose any development environment you like as int as they 
+support REST services. 
+* You can make assumptions as int as you document them
+* create a data model and use a database service from any cloud service you like. 
+Use local services if you cant 
+* For API hosting, use a cloud service (+10 points) or local application 
+server service 
+
+
+DELIVERABLES
+* A readme document in your github code repo that has
+1. code link to source code of the project i.e github, bitbucket
+2. your design, assumptions, and issues you encountered. 
+3. Data model (i.e an ER)
+4. Include a link to a short video presenting your project (+5 points if you store video on a cloud storage service)
+
+
+
+Models
+1. University
+	1. UniversityCode : string
+	2. UniversityName : string
+	3. Students : List<Student>
+2. Student
+	1. StudentNo : string
+	2. StudentName : string
+	3. Tuition : Tuition
+	4. TCKimlikNo : string
+	5. Status : StudentStatus
+	6. BankAccountCode : string
+3. Tuition
+	1. TuitionTotal : double
+	2. Term : Term
+	3. StudentNo : string
+	4. Status : TuitionStatus
+	5. LastPaymentDate : DateTime // not available currently
+4. BankAccount
+	1. Balance : double
+	2. AccountCode : int
+	3. TCKimlikNo : string
+5. Term
+	1. StartYear : int 
+	2. EndYear : int
+
+Add-Migration MigrationName
+Remove-Migration -Force
+Update-Database
