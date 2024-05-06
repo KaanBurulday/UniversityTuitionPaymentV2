@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UniversityTuitionPaymentV2.Migrations
 {
     /// <inheritdoc />
-    public partial class _2024_05_05_18_37 : Migration
+    public partial class V2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

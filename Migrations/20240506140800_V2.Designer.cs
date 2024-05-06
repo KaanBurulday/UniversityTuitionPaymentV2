@@ -12,8 +12,8 @@ using UniversityTuitionPaymentV2.Context;
 namespace UniversityTuitionPaymentV2.Migrations
 {
     [DbContext(typeof(UniversityTuitionPaymentContext))]
-    [Migration("20240505153735_2024_05_05_18_37")]
-    partial class _2024_05_05_18_37
+    [Migration("20240506140800_V2")]
+    partial class V2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -43,7 +43,8 @@ services.AddSingleton<ServiceBusClient>(provider =>
     return new ServiceBusClient(serviceBusConnectionString);
 });
 
-string connectionString = builder.Configuration.GetConnectionString("UniversityTuitionPaymentContext");
+//string connectionString = builder.Configuration.GetConnectionString("UniversityTuitionPaymentContext");
+string connectionString = builder.Configuration.GetConnectionString("UniversityTuitionPaymentContextAzureDb");
 services.AddDbContext<UniversityTuitionPaymentContext>(options => { options.UseSqlServer(connectionString); });
 
 services.AddScoped<IBankAccountService, BankAccountService>();
