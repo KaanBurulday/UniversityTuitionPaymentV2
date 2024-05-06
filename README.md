@@ -1,7 +1,7 @@
 # UniversityTuitionPaymentV2
 This is the 2nd version of the midterm project
 
-You can also use the app via Azure: <a>universitytuitionpaymentv2.azurewebsites.net</a>
+You can also use the app via Azure: <a>[universitytuitionpaymentv2.azurewebsites.net](https://universitytuitionpaymentv2.azurewebsites.net/swagger)</a>
 
 
 <h1> 0. Introduction </h1>
