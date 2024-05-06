@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using UniversityTuitionPaymentV2.Model;
+using UniversityTuitionPaymentV2.Model.Constants;
 using UniversityTuitionPaymentV2.Model.Dto;
 using UniversityTuitionPaymentV2.Model.Enums;
 using UniversityTuitionPaymentV2.Source.Services;
@@ -19,7 +21,7 @@ namespace UniversityTuitionPaymentV2.Controllers
         private ITermService _termService;
         private IUniversityService _universityService;
         private readonly ILogger<WeatherForecastController> _logger;
-        private IMessageQueueService _messageQueueService;
+        private readonly IMessageSenderService _messageSenderService;
 
         public BankingApp(IBankAccountService bankAccountService,
                             IStudentService studentService,
@@ -28,7 +30,7 @@ namespace UniversityTuitionPaymentV2.Controllers
                             IBankAccountTransferService bankAccountTransferService,
                             IUniversityService universityService, 
                             ILogger<WeatherForecastController> logger,
-                            IMessageQueueService messageQueueService)
+                            IMessageSenderService messageSenderService)
         {
             _bankAccountService = bankAccountService;
             _studentService = studentService;
@@ -37,7 +39,7 @@ namespace UniversityTuitionPaymentV2.Controllers
             _bankAccountTransferService = bankAccountTransferService;
             _universityService = universityService;
             _logger = logger;
-            _messageQueueService = messageQueueService; 
+            _messageSenderService = messageSenderService;
         }
 
         [HttpGet("QueryTuition/{studentNo}")]
@@ -63,7 +65,7 @@ namespace UniversityTuitionPaymentV2.Controllers
         }
 
         [HttpPost("PayTuition/{studentNo}/{start}-{end}")]
-        public IActionResult PayTuition(string studentNo, int start, int end)
+        public async Task<IActionResult> PayTuition(string studentNo, int start, int end)
         {
             try
             {
@@ -130,6 +132,15 @@ namespace UniversityTuitionPaymentV2.Controllers
                 student.Status = StudentStatus.Active;
                 _studentService.Update(student);
 
+                PaymentInfo paymentInfo = new PaymentInfo()
+                {
+                    BankAccountTransferId = transfered.Id,
+                    StudentId = student.Id,
+                    TuitionId = tuition.Id,
+                };
+
+                await _messageSenderService.SendMessageAsync(paymentInfo);
+
                 return Ok(transfer);
             }
             catch (Exception ex)
@@ -173,22 +184,6 @@ namespace UniversityTuitionPaymentV2.Controllers
                 var data = new { Status = "400", Message = "Bank Account Not Found." };
                 return new JsonResult(data);
             }
-        }
-
-        [HttpPost("send/{msg}")]
-        public async Task<IActionResult> send(string msg)
-        {
-            await _messageQueueService.SendNotificationAsync(msg);
-
-            return Ok("Message Sent Successfuly.");
-        }
-
-        [HttpPost("receive")]
-        public async Task<IActionResult> receive()
-        {
-            var message = await _messageQueueService.ReceiveNotificationAsync();
-
-            return Ok("Received Message: " + message);
         }
     }
 }

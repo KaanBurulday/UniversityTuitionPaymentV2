@@ -15,32 +15,7 @@ namespace UniversityTuitionPaymentV2.Controllers
         private readonly string _connectionString = "Endpoint=sb://unituitionpaymentsrvbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=zJgGPu5LZbEeqvDuQ6nShsEcMIIdYSXiy+ASbG9syus=";
         private readonly string _queueName = "unituitionpaymentqueue";
 
-        /*[HttpPost]
-        public async Task<IActionResult> ReceiveMessages()
-        {
-            await using var client = new ServiceBusClient(connectionString);
-            await using var receiver = client.CreateReceiver(queueName);
-
-            // Receive a single message
-            ServiceBusReceivedMessage message = await receiver.ReceiveMessageAsync();
-
-            if (message != null)
-            {
-                // Process the received message
-                string messageBody = Encoding.UTF8.GetString(message.Body);
-                // Your message processing logic here...
-
-                // Complete the message to remove it from the queue
-                await receiver.CompleteMessageAsync(message);
-
-                return Ok($"Received and processed message: {messageBody}");
-            }
-            else
-            {
-                return NoContent(); // No message available
-            }
-        }*/
-        [HttpPost("send")]
+        [HttpPost("Send")]
         public async Task<IActionResult> SendMessageAsync([FromBody] string messageBody)
         {
             await using (ServiceBusClient client = new ServiceBusClient(_connectionString))
@@ -52,7 +27,7 @@ namespace UniversityTuitionPaymentV2.Controllers
             }
         }
 
-        [HttpGet("receive")]
+        [HttpGet("Receive")]
         public async Task<IActionResult> ReceiveMessageAsync()
         {
             await using (ServiceBusClient client = new ServiceBusClient(_connectionString))
@@ -63,7 +38,7 @@ namespace UniversityTuitionPaymentV2.Controllers
                 {
                     string messageBody = Encoding.UTF8.GetString(message.Body);
                     await receiver.CompleteMessageAsync(message);
-                    return Ok(messageBody);
+                    return Ok("Received Message: " + messageBody);
                 }
                 else
                 {

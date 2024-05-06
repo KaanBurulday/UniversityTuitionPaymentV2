@@ -7,6 +7,7 @@ using UniversityTuitionPaymentV2.Source.Services;
 using System.Text;
 using System.Net;
 using Azure.Messaging.ServiceBus;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -35,14 +36,14 @@ services.AddSwaggerGen(c =>
     // c.IncludeXmlComments(xmlPath);
 });
 
-string serviceBusConnectionString = "Endpoint=sb://unituitionpaymentsrvbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=zJgGPu5LZbEeqvDuQ6nShsEcMIIdYSXiy+ASbG9syus=";
+string serviceBusConnectionString = builder.Configuration.GetConnectionString("ServiceBusConnectionString");
 string queueName = "unituitionpaymentqueue";
 services.AddSingleton<ServiceBusClient>(provider =>
 {
     return new ServiceBusClient(serviceBusConnectionString);
 });
 
-string connectionString = "Data Source=KaansAsusWorkPC\\SQLEXPRESS;Initial Catalog=UniversityTuitionPaymentV2;Integrated Security=True;Trust Server Certificate=True";
+string connectionString = builder.Configuration.GetConnectionString("UniversityTuitionPaymentContext");
 services.AddDbContext<UniversityTuitionPaymentContext>(options => { options.UseSqlServer(connectionString); });
 
 services.AddScoped<IBankAccountService, BankAccountService>();
@@ -51,10 +52,14 @@ services.AddScoped<IStudentService, StudentService>();
 services.AddScoped<ITermService, TermService>();
 services.AddScoped<ITuitionService, TuitionService>();
 services.AddScoped<IUniversityService, UniversityService>();
-services.AddScoped<IMessageQueueService>(provider =>
+services.AddScoped<IMessageSenderService>(provider =>
 {
-    return new MessageQueueService(serviceBusConnectionString, queueName);
+    return new MessageSenderService(serviceBusConnectionString, queueName);
 });;
+services.AddScoped<IMessageReceiverService>(provider =>
+{
+    return new MessageReceiverService(serviceBusConnectionString, queueName);
+}); ;
 
 var app = builder.Build();
 
@@ -69,15 +74,6 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/4-Example Controller/swagger.json", "Example Controller");
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger - V1");
 });
-/*app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/1-Midterm Controller/swagger.json", "SE 4458 Midterm Controllers");
-    c.SwaggerEndpoint("/swagger/2-Generator Controller/swagger.json", "Generator Controller");
-    c.SwaggerEndpoint("/swagger/3-Generic Controller/swagger.json", "Generic Controllers");
-    c.SwaggerEndpoint("/swagger/4-Example Controller/swagger.json", "Example Controller");
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger - V1");
-});*/
-
 
 app.UseHttpsRedirection();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UniversityTuitionPaymentV2.Model;
+using UniversityTuitionPaymentV2.Model.Constants;
 using UniversityTuitionPaymentV2.Model.Enums;
 using UniversityTuitionPaymentV2.Source.Services;
 
@@ -97,12 +98,15 @@ namespace UniversityTuitionPaymentV2.Controllers
             }
         }
 
-        [HttpGet("UnpaidTuitionStatus")]
-        public List<StudentDto> GetUnpaidTuitionStatus()
+        [HttpPost("UnpaidTuitionStatus")]
+        public List<StudentDto> GetUnpaidTuitionStatus([FromBody] QueryWithPagingDto query)
         {
             List<Student> datas = _studentService.Get().ToList();
+            List<Student> datasFiltered = datas.Skip((query.PageNumber - 1) * query.PageSize)
+                .Take(query.PageSize).ToList();
+
             List<StudentDto> ret = new List<StudentDto>();
-            datas.ForEach(data => { if(data.Status == StudentStatus.PaymentPending) ret.Add(createStudentDto(data)); });
+            datasFiltered.ForEach(data => { if(data.Status == StudentStatus.PaymentPending) ret.Add(createStudentDto(data)); });
             return ret;
         }
 
