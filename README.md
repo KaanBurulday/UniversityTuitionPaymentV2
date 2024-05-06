@@ -1,6 +1,8 @@
 # UniversityTuitionPaymentV2
 This is the 2nd version of the midterm project
 
+You can also use the app via Azure: <a>universitytuitionpaymentv2.azurewebsites.net</a>
+
 
 <h1> 0. Introduction </h1>
 Hello dear all, 
