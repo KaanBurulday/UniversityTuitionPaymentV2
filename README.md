@@ -28,10 +28,10 @@ Includes almost all of the necessary rest operations in order to get, insert, up
 To achieve the second assignment, I have created 2 services (MessageSenderService, MessageReceiverService) that are able to 
 send/receives messages to/from an Azure Service Bus Queue. You can test sending and receiving messages with MessageController controller. 
 In the PayTuition operation of BankingApp controller, a message (PaymentInfo object) will be enqueued. To consume, you can either 
-consume it from the api or run the MessageQueueSender project.
+consume it from the api or run the MessageQueueReceiver project.
 <br>
 I hope that you wouldn't have any problems, if you do feel free to get in touch with me!
 
 <h3>Endnote</h3>
 Hello, soryy for the late upload to github I have noticed that the messagequeue sender and receiver were
-not included, fixed them so that by starting the project via solution, you may be able to run them both.
+not included, fixed them by uploading their project files as zip. If you wish you can download and open them as projects.
