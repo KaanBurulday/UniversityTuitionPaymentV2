@@ -31,3 +31,7 @@ In the PayTuition operation of BankingApp controller, a message (PaymentInfo obj
 consume it from the api or run the MessageQueueSender project.
 <br>
 I hope that you wouldn't have any problems, if you do feel free to get in touch with me!
+
+<h3>Endnote</h3>
+Hello, soryy for the late upload to github I have noticed that the messagequeue sender and receiver were
+not included, fixed them so that by starting the project via solution, you may be able to run them both.
