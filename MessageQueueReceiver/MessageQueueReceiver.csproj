@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ADC8E15B-8381-4822-A5B8-91776C74DA40}</ProjectGuid>
+    <ProjectGuid>{A9236824-C2EA-47CB-A18C-F89C1A9A707E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>MessageQueueReceiver</RootNamespace>
     <AssemblyName>MessageQueueReceiver</AssemblyName>

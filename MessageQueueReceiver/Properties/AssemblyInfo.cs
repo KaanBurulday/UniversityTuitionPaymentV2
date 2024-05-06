@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-//// General Information about an assembly is controlled through the following
-//// set of attributes. Change these attribute values to modify the information
-//// associated with an assembly.
+// General Information about an assembly is controlled through the following
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
 //[assembly: AssemblyTitle("MessageQueueReceiver")]
 //[assembly: AssemblyDescription("")]
 //[assembly: AssemblyConfiguration("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 //[assembly: ComVisible(false)]
 
 //// The following GUID is for the ID of the typelib if this project is exposed to COM
-//[assembly: Guid("adc8e15b-8381-4822-a5b8-91776c74da40")]
+//[assembly: Guid("a9236824-c2ea-47cb-a18c-f89c1a9a707e")]
 
 //// Version information for an assembly consists of the following four values:
 ////
